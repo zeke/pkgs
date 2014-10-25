@@ -10,12 +10,32 @@ Download node at [nodejs.org](http://nodejs.org) and install it, if you haven't 
 npm install pkgs --save
 ```
 
+## Usage
+
+```js
+var pkgs = require("pkgs")
+
+// Pass in an array of package names
+pkgs(["ghwd", "domready", "lodash.pluck"], function(err, packages){
+  console.log(err, packages)
+})
+
+// Optionally specify some desired properties
+var names = ["ghwd", "domready", "lodash.pluck"]
+var props = ["name", "description", "repository"]
+pkgs(names, props, function(err, packages){
+  console.log(err, packages)
+})
+
+```
+
 ## Tests
 
 ```sh
 npm install
 npm test
 ```
+
 
 ## Dependencies
 
