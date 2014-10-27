@@ -1,13 +1,19 @@
 var _ = require("lodash")
 var async = require("async")
 var registry = require("npm-stats")()
-var pkgs = module.exports = function(names, properties, callback) {
+var pkgs = module.exports = function(names, options, callback) {
 
-  // properties array is optional
-  // all properties are returned by default
-  if (arguments.length === 2) {
-    callback = properties
-    properties = null
+  if (arguments.length === 3) {
+    // Allow shorthand syntax, where options is actually
+    // an array of desired property names
+    if (Array.isArray(options)) {
+      options = {
+        pick: options.join(" ").split(" ")
+      }
+    }
+  } else if (arguments.length === 2) {
+    callback = options
+    options = {}
   }
 
   async.map(
@@ -20,7 +26,8 @@ var pkgs = module.exports = function(names, properties, callback) {
 
       pkgs = pkgs.map(function(pkg) {
         if (!pkg) return null
-        if (properties) return _.pick(pkg, properties)
+        if (options.omit) return _.omit(pkg, options.omit)
+        if (options.pick) return _.pick(pkg, options.pick)
         return pkg
       })
 

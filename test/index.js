@@ -1,12 +1,12 @@
 assert = require("assert")
 pkgs = require("..")
 
-describe("pkgs", function(){
+describe("pkgs", function() {
 
   this.timeout(5000)
 
   it("fetches an array of package metadata", function(done) {
-    pkgs(["ghwd", "domready", "lodash.pluck"], function(err, res){
+    pkgs(["ghwd", "domready", "lodash.pluck"], function(err, res) {
       assert(!err)
       assert(Array.isArray(res))
       assert.equal(res.length, 3)
@@ -17,8 +17,8 @@ describe("pkgs", function(){
     })
   })
 
-  it("gets all properties by default", function(done) {
-    pkgs(["superagent"], function(err, res){
+  it("picks all properties by default", function(done) {
+    pkgs(["superagent"], function(err, res) {
       assert(!err)
       var pkg = res[0]
       assert(pkg._id)
@@ -38,19 +38,51 @@ describe("pkgs", function(){
     })
   })
 
-  it("accepts an optional second argument specifying desired properties", function(done) {
-    pkgs(["faves"], ["name", "description"], function(err, res){
-      assert(!err)
-      assert.equal(res.length, 1)
-      assert.deepEqual(Object.keys(res[0]).sort(), ["name", "description"].sort())
+  it("catches errors", function(done) {
+    pkgs(["kjsdofiusdfdskjfjjk"], ["name"], function(err, res) {
+      assert(err)
       done()
     })
   })
 
-  it("catches errors", function(done) {
-    pkgs(["kjsdofiusdfdskjfjjk"], ["name"], function(err, res){
-      assert(err)
-      done()
+  describe("options", function(){
+
+    it("allows properties to be picked", function(done) {
+      var opts = {
+        pick: ["name", "description"]
+      }
+      pkgs(["faves"], opts, function(err, res) {
+        assert(!err)
+        assert.equal(res.length, 1)
+        assert.deepEqual(Object.keys(res[0]).sort(), ["name", "description"].sort())
+        done()
+      })
+    })
+
+    it("allows properties to be omitted", function(done) {
+      var opts = {
+        omit: ["readme", "versions"]
+      }
+      pkgs(["faves"], opts, function(err, res) {
+        assert(!err)
+        assert.equal(res.length, 1)
+        var pkg = res[0]
+        assert(pkg.name)
+        assert(pkg['dist-tags'])
+        assert(pkg.author)
+        assert(!pkg.readme)
+        assert(!pkg.versions)
+        done()
+      })
+    })
+
+    it("allows options object to instead be an array of desired properties (backwards compatiblity)", function(done) {
+      pkgs(["faves"], ["name", "description"], function(err, res) {
+        assert(!err)
+        assert.equal(res.length, 1)
+        assert.deepEqual(Object.keys(res[0]).sort(), ["name", "description"].sort())
+        done()
+      })
     })
   })
 
