@@ -17,6 +17,16 @@ describe("pkgs", function() {
     })
   })
 
+  it("fetches a single package's metadata if package is entered as a string", function (done) {
+    pkgs("lodash", function (err, res) {
+      assert(!err)
+      assert(Array.isArray(res))
+      assert.equal(res.length, 1)
+      assert.equal(res[0].name, "lodash")
+      done()
+    })
+  })
+
   it("picks all properties by default", function(done) {
     pkgs(["superagent"], function(err, res) {
       assert(!err)
