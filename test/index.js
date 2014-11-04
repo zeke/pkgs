@@ -27,6 +27,17 @@ describe("pkgs", function() {
     })
   })
 
+  it("fetches multiple packages' metadata if packages are entered as a string separated by spaces", function (done) {
+    pkgs("lodash domready", function (err, res) {
+      assert(!err)
+      assert(Array.isArray(res))
+      assert.equal(res.length, 2)
+      assert.equal(res[0].name, "lodash")
+      assert.equal(res[1].name, "domready")
+      done()
+    })
+  })
+
   it("picks all properties by default", function(done) {
     pkgs(["superagent"], function(err, res) {
       assert(!err)
