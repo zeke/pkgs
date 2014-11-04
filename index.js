@@ -16,6 +16,10 @@ var pkgs = module.exports = function(names, options, callback) {
     options = {}
   }
 
+  if (typeof names === 'string') {
+    names = names.split(' ');
+  }
+
   async.map(
     names,
     function(pkg, cb) {
