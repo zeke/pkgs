@@ -1,4 +1,4 @@
-# pkgs 
+# pkgs
 
 Fetch npm registry metadata for a list of npm package names
 
@@ -37,7 +37,6 @@ var options = {
 pkgs(names, options, function(err, packages){
   console.log(err, packages)
 })
-
 ```
 
 ## Tests
