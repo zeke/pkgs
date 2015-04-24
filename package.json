@@ -1,6 +1,6 @@
 {
   "name": "pkgs",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Fetch npm registry metadata for a list of npm package names",
   "main": "index.js",
   "scripts": {
@@ -31,5 +31,7 @@
     "lodash": "^2.4.1",
     "npm-stats": "^1.0.0"
   },
-  "alternatives": ["get-pkgs"]
+  "alternatives": [
+    "get-pkgs"
+  ]
 }
