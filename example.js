@@ -1,4 +1,4 @@
-var pkgs = require("./")
+var pkgs = require('.')
 
 // Pass in an array of package names
 pkgs(["ghwd", "domready", "lodash.pluck"], function(err, packages){
