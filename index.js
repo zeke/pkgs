@@ -1,8 +1,7 @@
 var _ = require("lodash")
 var async = require("async")
-var registry = require("npm-stats")()
+var npmStats = require("npm-stats")
 var pkgs = module.exports = function(names, options, callback) {
-
   if (arguments.length === 3) {
     // Allow shorthand syntax, where options is actually
     // an array of desired property names
@@ -15,6 +14,8 @@ var pkgs = module.exports = function(names, options, callback) {
     callback = options
     options = {}
   }
+
+  var registry = npmStats(undefined, options.npmStats)
 
   if (typeof names === 'string') {
     names = names.split(' ');

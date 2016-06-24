@@ -107,4 +107,16 @@ describe("pkgs", function() {
     })
   })
 
+  it("allows configuration to be passed to the npm-stats sub-dependency", function (done) {
+    pkgs("lodash", {npmStats: {
+      registry: 'https://registry.npmjs.org',
+      modules: ''
+    }}, function (err, res) {
+      assert(!err)
+      assert(Array.isArray(res))
+      assert.equal(res.length, 1)
+      assert.equal(res[0].name, "lodash")
+      done()
+    })
+  })
 })
